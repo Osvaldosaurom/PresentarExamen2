@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Osvaldo - Examen 2</title>
+    <link rel="icon" type="image/png" href="./img/logo.png" />
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        margin: 0;
+        font-family: "Roboto", "Arial", sans-serif;
+        background-color: #e0e0e0;
+        padding: 20px;
+      }
+      .top-bar {
+        display: flex;
+        justify-content: center;
+        background: #137dc5; /* Color de fondo para la barra superior */
+        padding: 10px;
+        margin-bottom: 20px;
+        color: #fff; /* Color del texto para la barra superior */
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #e0e0e0; /* Color de fondo para la segunda fila del header */
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      .logo {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+      }
+      .logo img {
+        width: 100px; /* Ajusta el tamaño como sea necesario */
+        height: auto;
+      }
+      .logo-text {
+        color: #007ec8;
+        margin-left: 10px;
+        font-size: 24px; /* Ajusta el tamaño como sea necesario */
+      }
+      .search-cart {
+        width: 100%;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        background-color: #e0e0e0; /* Fondo suave para el contenedor */
+        border-radius: 15px; /* Bordes redondeados */
+        box-shadow: 8px 8px 15px #bebebe, -8px -8px 15px #ffffff; /* Sombras suaves para el efecto neumorphism */
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .cart {
+        color: #007ec8;
+        margin-right: 10px; /* Espacio entre el carrito y el buscador */
+      }
+
+      .search-box {
+        display: flex;
+        align-items: center;
+        background-color: #e0e0e0; /* Fondo suave para la caja de búsqueda */
+        border-radius: 15px; /* Bordes redondeados */
+        box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff; /* Sombras internas suaves */
+        padding: 10px;
+      }
+
+      .search-box input {
+        border: none;
+        padding: 5px;
+        margin-right: 5px;
+        background-color: transparent; /* Fondo transparente para el input */
+      }
+
+      .search-box button {
+        border: none;
+        padding: 5px;
+        background-color: #4caf50; /* Color de fondo para el botón de búsqueda */
+        color: white; /* Texto en color blanco */
+        border-radius: 10px; /* Bordes redondeados para el botón */
+        box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff; /* Sombras suaves para el botón */
+        cursor: pointer; /* Cambia el cursor a una mano */
+      }
+
+      .search-box button:hover {
+        background-color: #43a047; /* Cambio de color al pasar el ratón */
+      }
+
+      /* Media query para pantallas menores de 768px */
+      @media (max-width: 768px) {
+        .header {
+          flex-direction: column;
+        }
+        .search-cart,
+        .search-cart > * {
+          background-color: #000;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+        }
+
+        .search-cart > * {
+          margin-bottom: 20px; /* Agrega un espacio entre los elementos apilados */
+        }
+
+        .search-box {
+          justify-content: space-between; /* Esto hace que el input y el botón se separen */
+        }
+
+        .search-box button {
+          margin-left: auto;
+        }
+
+        .nav a {
+          width: 100%;
+          padding-left: 10px;
+          display: block;
+        }
+
+        .banner {
+          flex-grow: 1;
+          padding: 20px;
+          height: 200px;
+        }
+
+        .cart {
+          margin-bottom: 15px; /* Espacio entre el carrito y el buscador */
+        }
+      }
+
+      .nav {
+        display: flex;
+        justify-content: center;
+        background: #000;
+        color: #fff;
+        padding: 10px 0;
+        border-radius: 10px 10px 10px 10px;
+      }
+      .nav a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 10px;
+        font-size: 16px;
+      }
+
+      .sidebaruno {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sidebar {
+        background-color: #e0e0e0; /* Color de fondo suave */
+        border-radius: 15px; /* Bordes redondeados */
+        box-shadow: 8px 8px 15px #bebebe, -8px -8px 15px #ffffff; /* Sombras suaves para el efecto neumorphism */
+        padding: 10px; /* Espaciado interno */
+        margin-bottom: 20px;
+      }
+
+      .sidebar ul {
+        padding: 0;
+        list-style-type: none;
+        margin: 0;
+      }
+
+      .sidebar ul > li {
+        color: #333; /* Color de texto más suave */
+        background-color: #e0e0e0; /* Color de fondo suave para los elementos de la lista */
+        padding: 10px;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 10px; /* Bordes redondeados para los elementos de la lista */
+        box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff; /* Sombras internas suaves */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .sidebar ul > li:hover {
+        transform: translateY(-3px);
+        background-color: #d6d6d6; /* Cambio de color al pasar el ratón */
+        color: #137dc5; /* Cambio de color del texto al pasar el ratón */
+        box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff; /* Sombras más pronunciadas en hover */
+      }
+
+      .banner {
+        width: 100%;
+        height: auto;
+        background-image: url("./img/img001.png");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+        border-radius: 15px; /* Bordes redondeados */
+        box-shadow: 8px 8px 15px #bebebe, -8px -8px 15px #ffffff; /* Sombras suaves para el efecto neumorphism */
+        overflow: hidden; /* Asegura que la imagen de fondo y los bordes redondeados se apliquen correctamente */
+        padding: 20px; /* Añade espacio alrededor del contenido */
+        margin: 20px 0; /* Añade margen alrededor del banner */
+      }
+      .articbann {
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+      .news-item.news-important {
+        text-align: left;
+        background-color: #e0e0e0; /* Color de fondo suave */
+        color: #333; /* Texto en color oscuro para contraste */
+        border-radius: 15px; /* Bordes más redondeados */
+        box-shadow: 8px 8px 15px #bebebe, -8px -8px 15px #ffffff; /* Sombras suaves para el efecto neumorphism */
+        padding: 20px; /* Espacio interior más generoso */
+        margin: 10px 10px; /* Espacio alrededor de la noticia importante */
+        transition: box-shadow 0.3s ease; /* Transición suave para hover */
+      }
+
+      .news-item.news-important:hover {
+        box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff; /* Sombras más pronunciadas en hover */
+      }
+
+      .news-title {
+        font-size: 18px; /* Tamaño de fuente más grande para el título */
+        margin-bottom: 10px; /* Espacio debajo del título */
+        font-weight: bold;
+      }
+
+      .news-content {
+        font-size: 14px; /* Tamaño de fuente para el contenido */
+        line-height: 1.6; /* Espacio entre líneas para mejorar la legibilidad */
+      }
+
+      @media (min-width: 600px) {
+        .sidebaruno {
+          flex-direction: row;
+        }
+
+        .sidebar {
+          border-right: 1px solid #ddd;
+          border-bottom: none;
+          width: 20%;
+        }
+      }
+
+      .social-media-widget {
+        font-family: Arial, sans-serif;
+        width: 100%; /* Ajusta el ancho según tus necesidades */
+        padding: 10px;
+        box-sizing: border-box;
+      }
+      .social-media-header {
+        text-align: center;
+        border-bottom: 1px solid #000;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+      }
+      .social-media-logo {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .like-button,
+      .friends-list {
+        text-align: center;
+        margin-bottom: 10px;
+        cursor: pointer;
+      }
+      .social-icons {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 50px;
+      }
+      .social-icon {
+        display: inline-block;
+        width: 20px; /* Ajusta el tamaño según tus necesidades */
+        height: 20px;
+        background-color: #ddd; /* Color de fondo temporal */
+        text-align: center;
+        line-height: 20px; /* Centrar el texto verticalmente */
+      }
+
+      .newest-products-container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap; /* Asegura que los elementos se ajusten en pantallas más pequeñas */
+        padding: 20px;
+      }
+      .product-card {
+        flex-basis: 22%; /* Ajusta el tamaño de las tarjetas */
+        border: 1px solid #000;
+        margin: 10px;
+        padding: 10px;
+        box-sizing: border-box;
+        text-align: center;
+      }
+      .product-image {
+        width: 100%; /* Ajusta el ancho de la imagen */
+        height: 150px; /* Ajusta la altura de la imagen */
+        background-color: #ddd; /* Color de fondo temporal para la imagen */
+        margin-bottom: 10px;
+      }
+      .product-description {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+      }
+      .stock-status {
+        color: green;
+        margin-bottom: 10px;
+      }
+      .price {
+        margin-bottom: 10px;
+      }
+      .details-button,
+      .add-to-cart-button {
+        margin-bottom: 5px;
+        padding: 10px 20px; /* Un poco más de padding para un aspecto más suave */
+        border: none; /* No border for neumorphism */
+        border-radius: 15px; /* Bordes redondeados */
+        color: white; /* Texto blanco para ambos botones */
+        cursor: pointer;
+        transition: all 0.2s ease; /* Transición suave para el efecto hover */
+      }
+
+      /* Colores y sombras para el botón de detalles */
+      .details-button {
+        background-color: #4465ad; /* Color morado para el botón de detalles */
+        box-shadow: 5px 5px 10px #137dc5, -5px -5px 10px #506abe; /* Sombras para el efecto neumorphism */
+      }
+
+      .details-button:hover {
+        background-color: #4465ad; /* Un morado ligeramente más claro en hover */
+        box-shadow: 2px 2px 5px #137dc5, -2px -2px 5px #506abe; /* Sombras más suaves en hover */
+      }
+
+      /* Colores y sombras para el botón de añadir al carrito */
+      .add-to-cart-button {
+        background-color: #27ae60; /* Color verde para el botón de añadir al carrito */
+        box-shadow: 5px 5px 10px #219150, -5px -5px 10px #2ecc71; /* Sombras para el efecto neumorphism */
+      }
+
+      .add-to-cart-button:hover {
+        background-color: #2ecc71; /* Un verde ligeramente más claro en hover */
+        box-shadow: 2px 2px 5px #219150, -2px -2px 5px #2ecc71; /* Sombras más suaves en hover */
+      }
+
+      .footer {
+        padding: 20px;
+        text-align: center;
+        background-color: #e0e0e0; /* Color de fondo claro típico del neumorfismo */
+        border-radius: 15px; /* Bordes redondeados para el efecto neumórfico */
+        box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6),
+          -9px -9px 16px rgba(255, 255, 255, 0.5); /* Sombra suave y elevación */
+        margin: 30px auto; /* Centra y da espacio alrededor del footer */
+        max-width: 1000px; /* Ancho máximo del footer */
+      }
+
+      .footer p {
+        color: #333; /* Color de texto oscuro para contraste */
+        font-size: 16px; /* Tamaño de fuente legible */
+        margin: 10px 0; /* Espacio vertical para el texto */
+      }
+      .footer-day {
+        padding: 20px;
+        text-align: center;
+        background-color: #e0e0e0; /* Color de fondo claro típico del neumorfismo */
+        border-radius: 15px; /* Bordes redondeados para el efecto neumórfico */
+        box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6),
+          -9px -9px 16px rgba(255, 255, 255, 0.5); /* Sombra suave y elevación */
+        margin: 30px auto; /* Centra y da espacio alrededor del footer */
+        max-width: 1000px; /* Ancho máximo del footer */
+      }
+
+      .footer-night {
+        padding: 20px;
+        text-align: center;
+        background-color: #000; /* Color de fondo claro típico del neumorfismo */
+        color: #fff;
+        border-radius: 15px; /* Bordes redondeados para el efecto neumórfico */
+        box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6),
+          -9px -9px 16px rgba(255, 255, 255, 0.5); /* Sombra suave y elevación */
+        margin: 30px auto; /* Centra y da espacio alrededor del footer */
+        max-width: 1000px; /* Ancho máximo del footer */
+      }
+
+      .clock-container {
+        /* ... tus estilos existentes ... */
+        flex-direction: column;
+        align-items: center;
+        background-color: #e0e0e0; /* Fondo similar al cuerpo para integrarse con el estilo */
+        border-radius: 20px; /* Bordes redondeados */
+        box-shadow: 10px 10px 20px #c8c8c8, -10px -10px 20px #ffffff; /* Sombra suave para el efecto neumórfico */
+        font-size: 20px; /* Tamaño de fuente del reloj */
+        color: #333; /* Color del texto para contraste */
+        padding: 20px 40px; /* Relleno alrededor del texto */
+        text-align: center;
+      }
+
+      .clock {
+        /* ... tus estilos existentes ... */
+        user-select: none;
+      }
+
+      .date {
+        /* ... tus estilos existentes ... */
+        margin-bottom: 10px;
+      }
+
+      .toggle-format {
+        /* ... tus estilos existentes ... */
+        margin-top: 10px;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+
+      .clock:hover,
+      .toggle-format:hover {
+        animation: glow 1.5s infinite alternate;
+      }
+
+      @keyframes glow {
+        to {
+          text-shadow: 0 0 20px #33ff33;
+        }
+      }
+
+      .miselect {
+        background-color: #e0e0e0; /* Fondo claro para el estilo neumórfico */
+        border-radius: 15px; /* Bordes redondeados */
+        border: none; /* Eliminar borde predeterminado */
+        padding: 10px 20px; /* Relleno para dar espacio alrededor del texto */
+        box-shadow: 5px 5px 10px #c8c8c8, -5px -5px 10px #ffffff; /* Sombras para el efecto neumórfico */
+        color: #333; /* Color del texto */
+        font-size: 16px; /* Tamaño del texto */
+        outline: none; /* Eliminar el resaltado al enfocar */
+      }
+
+      .miselect:focus {
+        box-shadow: inset 1px 1px 2px #c8c8c8, inset -1px -1px 2px #ffffff; /* Sombras internas al enfocar */
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="top-bar">
+        Home | About Us | Terms and conditions | Payment | Shipping | Contact Us
+        | Login | Register
+      </div>
+
+      <div class="header">
+        <div class="logo">
+          <img src="./img/logo.png" alt="Logo" />
+          <div class="logo-text">Osvaldo</div>
+        </div>
+        <div class="search-cart">
+          <div class="header">
+            <div class="cart">
+              CART
+              <select name="" id="" class="miselect">
+                <option value="1 items">1 items</option>
+                <option value="5 items">5 items</option>
+                <option value="10 items">10 items</option>
+                <option value="15 items">15 items</option>
+                <option value="20 items">20 items</option>
+              </select>
+            </div>
+            <div class="search-box">
+              <input type="text" placeholder="Search" />
+              <button type="submit">🔍</button>
+            </div>
+          </div>
+          <div class="nav">
+            <!-- Ajusta los atributos href según sea necesario -->
+            <a href="#">Notebooks</a>
+            <a href="#">Tabs</a>
+            <a href="#">Mobile</a>
+            <a href="#">PC</a>
+            <a href="#">Software</a>
+            <a href="#">News</a>
+            <a href="#">Discounts</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="sidebaruno">
+      <aside class="sidebar">
+        <ul>
+          <li>News</li>
+          <li>Blogs</li>
+          <li>About us</li>
+          <li>Privacy</li>
+          <li>Terms and payment</li>
+          <li>Guarantee</li>
+          <li>Helpdesk</li>
+          <li>Shopping</li>
+          <li>Site Map</li>
+          <li>Contact us</li>
+        </ul>
+      </aside>
+      <div class="banner">
+        <!-- <img src="./img/img1.png" alt="Banner MIVEN"> -->
+      </div>
+    </div>
+
+    <div class="sidebaruno">
+      <aside class="sidebar">
+        <div class="clock-container">
+          <div id="date" class="date"></div>
+          <div id="clock" class="clock"></div>
+          <div id="toggle-format" class="toggle-format">24-Hour Format</div>
+        </div>
+      </aside>
+      <div class="articbann">
+        <div class="news-important" style="text-align: left; margin: 20px">
+          <div class="news-title">Noticia Importante sobre Tecnología</div>
+          <div class="news-content">
+            Aquí entra el contenido de la noticia importante, con detalles y
+            datos de interés.Aquí entra el contenido de la noticia importante,
+            con detalles y datos de interés.Aquí entra el contenido de la
+            noticia importante, con detalles y datos de interés.Aquí entra el
+            contenido de la noticia importante, con detalles y datos de
+            interés.Aquí entra el contenido de la noticia importante, con
+            detalles y datos de interés.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebaruno">
+      <aside class="sidebar">
+        <div class="social-media-widget">
+          <div class="social-media-header">Social Media</div>
+          <div class="social-media-logo">
+            <img src="./img/logo.png" alt="" width="100" />
+          </div>
+          <div class="like-button">
+            <img
+              src="./img/img006.png"
+              alt="Like facebook"
+              width="100"
+              onclick="incrementCounter()" />
+          </div>
+          <div class="friends-list">
+            Your friends who liked
+            <div id="counter" class="click-counter">0</div>
+          </div>
+          <div class="social-icons">
+            <!-- En un proyecto real, estas serían imágenes o íconos SVG en lugar de texto -->
+            <div class="social-icon">
+              <img src="./img/img002.png" alt="" width="30" />
+            </div>
+            <div class="social-icon">
+              <img src="./img/img003.png" alt="" width="30" />
+            </div>
+            <div class="social-icon">
+              <img src="./img/img004.png" alt="" width="30" />
+            </div>
+            <div class="social-icon">
+              <img src="./img/img005.png" alt="" width="30" />
+            </div>
+          </div>
+          <div class="social-icons">
+            <!-- En un proyecto real, estas serían imágenes o íconos SVG en lugar de texto -->
+            <div class="social-icon">
+              <img src="./img/logof.png" alt="" width="20" />
+            </div>
+            <div class="social-icon">
+              <img src="./img/logot.png" alt="" width="20" />
+            </div>
+            <div class="social-icon">
+              <img src="./img/logog.png" alt="" width="20" />
+            </div>
+            <div class="social-icon">
+              <img src="./img/logoi.png" alt="" width="20" />
+            </div>
+          </div>
+        </div>
+      </aside>
+      <div class="articbann">
+        <div class="news-item news-important">
+          <div class="news-title">NEWS PRODUCTS</div>
+          <div class="news-content">
+            <div class="newest-products-container">
+              <div class="product-card">
+                <div class="product-image">
+                  <img src="./img/img011.jpg" alt="Teclado" width="200px" />
+                </div>
+                <div class="product-description">
+                  Descripción del producto...
+                </div>
+                <div class="stock-status">EN STOCK</div>
+                <div class="price">58 $</div>
+                <button class="details-button">Detalles</button>
+                <button class="add-to-cart-button">Agregar al carrito</button>
+              </div>
+              <div class="product-card">
+                <div class="product-image">
+                  <img src="./img/img008.jpg" alt="" width="200px" />
+                </div>
+                <div class="product-description">
+                  Descripción del producto...
+                </div>
+                <div class="stock-status">EN STOCK</div>
+                <div class="price">79 $</div>
+                <button class="details-button">Detalles</button>
+                <button class="add-to-cart-button">Agregar al carrito</button>
+              </div>
+              <div class="product-card">
+                <div class="product-image">
+                  <img src="./img/img009.jpg" alt="" width="200px" />
+                </div>
+                <div class="product-description">
+                  Descripción del producto...
+                </div>
+                <div class="stock-status">EN STOCK</div>
+                <div class="price">183 $</div>
+                <button class="details-button">Detalles</button>
+                <button class="add-to-cart-button">Agregar al carrito</button>
+              </div>
+              <div class="product-card">
+                <div class="product-image">
+                  <img src="./img/img010.jpg" alt="" width="200px" />
+                </div>
+                <div class="product-description">
+                  Descripción del producto...
+                </div>
+                <div class="stock-status">EN STOCK</div>
+                <div class="price">895 $</div>
+                <button class="details-button">Detalles</button>
+                <button class="add-to-cart-button">Agregar al carrito</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="footer-day" id="myFooter">
+      <p>&copy; 2023 Osvaldo Romero Sauter. Todos los derechos reservados.</p>
+      <p>Política de privacidad | Términos y condiciones</p>
+      <button id="changeStyleButton">Cambiar color</button>
+    </footer>
+  </body>
+</html>
+
+<script>
+  var count = 0;
+
+  function incrementCounter() {
+    count++;
+    document.getElementById("counter").textContent = count;
+  }
+
+  /*reloj*/
+  let is24HourFormat = true;
+
+  function updateClock() {
+    const now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes().toString().padStart(2, "0");
+    let seconds = now.getSeconds().toString().padStart(2, "0");
+    let ampm = hours >= 12 ? "PM" : "AM";
+
+    if (!is24HourFormat) {
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+    }
+
+    hours = hours.toString().padStart(2, "0");
+
+    document.getElementById(
+      "clock"
+    ).textContent = `${hours}:${minutes}:${seconds} ${
+      is24HourFormat ? "" : ampm
+    }`;
+    document.getElementById("date").textContent = now.toDateString();
+  }
+
+  function toggleFormat() {
+    is24HourFormat = !is24HourFormat;
+    document.getElementById("toggle-format").textContent = is24HourFormat
+      ? "24-Hour Format"
+      : "12-Hour Format";
+  }
+
+  document
+    .getElementById("toggle-format")
+    .addEventListener("click", toggleFormat);
+
+  setInterval(updateClock, 1000);
+  updateClock(); // Inicializa el reloj inmediatamente
+
+  /*cambia color footer*/
+  document
+    .getElementById("changeStyleButton")
+    .addEventListener("click", function () {
+      var footer = document.getElementById("myFooter");
+
+      if (footer.classList.contains("footer-day")) {
+        footer.classList.remove("footer-day");
+        footer.classList.add("footer-night");
+      } else {
+        footer.classList.remove("footer-night");
+        footer.classList.add("footer-day");
+      }
+    });
+</script>
